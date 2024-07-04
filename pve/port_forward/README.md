@@ -30,13 +30,13 @@ curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/pve/port
 1. 删除 `ipv4` 端口转发
 
 ```shell
-curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/pve/port_forward/port_forward.sh | bash -s delete ipv4 1822
+curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/pve/port_forward/port_forward.sh | bash -s delete ipv4 1822 10.0.18.2 22
 ```
 
 2. 删除 `ipv6` 端口转发
 
 ```shell
-curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/pve/port_forward/port_forward.sh | bash -s delete ipv6 1822
+curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/pve/port_forward/port_forward.sh | bash -s delete ipv6 1822 fd00:18::2 22
 ```
 
 ### 修改端口转发
