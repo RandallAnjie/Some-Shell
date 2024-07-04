@@ -8,11 +8,11 @@ add_forwarding() {
   local internal_port=$4
 
   if [ "$proto" == "ipv4" ]; then
-    iptables -t nat -A PREROUTING -p tcp --dport $external_port -j DNAT --to-destination $internal_ip:$internal_port
+    iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT --to-destination $internal_ip:$internal_port
     iptables -A FORWARD -p tcp -d $internal_ip --dport $internal_port -j ACCEPT
     echo "已添加 IPv4 转发: $external_port -> $internal_ip:$internal_port"
   elif [ "$proto" == "ipv6" ]; then
-    ip6tables -t nat -A PREROUTING -p tcp --dport $external_port -j DNAT --to-destination [$internal_ip]:$internal_port
+    ip6tables -t nat -A PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT --to-destination [$internal_ip]:$internal_port
     ip6tables -A FORWARD -p tcp -d $internal_ip --dport $internal_port -j ACCEPT
     echo "已添加 IPv6 转发: $external_port -> $internal_ip:$internal_port"
   else
@@ -26,11 +26,11 @@ delete_forwarding() {
   local external_port=$2
 
   if [ "$proto" == "ipv4" ]; then
-    iptables -t nat -D PREROUTING -p tcp --dport $external_port -j DNAT
+    iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT
     iptables -D FORWARD -p tcp --dport $external_port -j ACCEPT
     echo "已删除 IPv4 转发: $external_port"
   elif [ "$proto" == "ipv6" ]; then
-    ip6tables -t nat -D PREROUTING -p tcp --dport $external_port -j DNAT
+    ip6tables -t nat -D PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT
     ip6tables -D FORWARD -p tcp --dport $external_port -j ACCEPT
     echo "已删除 IPv6 转发: $external_port"
   else
