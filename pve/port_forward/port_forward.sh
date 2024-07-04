@@ -24,14 +24,16 @@ add_forwarding() {
 delete_forwarding() {
   local proto=$1
   local external_port=$2
+  local internal_ip=$3
+  local internal_port=$4
 
   if [ "$proto" == "ipv4" ]; then
-    iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT
-    iptables -D FORWARD -p tcp --dport $external_port -j ACCEPT
+    iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT --to-destination $internal_ip:$internal_port
+    iptables -D FORWARD -p tcp -d $internal_ip --dport $internal_port -j ACCEPT
     echo "已删除 IPv4 转发: $external_port"
   elif [ "$proto" == "ipv6" ]; then
-    ip6tables -t nat -D PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT
-    ip6tables -D FORWARD -p tcp --dport $external_port -j ACCEPT
+    ip6tables -t nat -D PREROUTING -i vmbr0 -p tcp --dport $external_port -j DNAT --to-destination [$internal_ip]:$internal_port
+    ip6tables -D FORWARD -p tcp -d $internal_ip --dport $internal_port -j ACCEPT
     echo "已删除 IPv6 转发: $external_port"
   else
     echo "无效的协议。请使用 'ipv4' 或 'ipv6'。"
@@ -56,7 +58,7 @@ modify_forwarding() {
   local internal_port=$5
 
   # 删除旧的转发规则
-  delete_forwarding $proto $old_external_port
+  delete_forwarding $proto $old_external_port $internal_ip $internal_port
 
   # 添加新的转发规则
   add_forwarding $proto $new_external_port $internal_ip $internal_port
@@ -67,7 +69,7 @@ usage() {
   echo "用法: $0 {add|delete|modify|list} [选项]"
   echo "命令:"
   echo "  add <ipv4|ipv6> <外部端口> <内部IP> <内部端口>"
-  echo "  delete <ipv4|ipv6> <外部端口>"
+  echo "  delete <ipv4|ipv6> <外部端口> <内部IP> <内部端口>"
   echo "  modify <ipv4|ipv6> <旧外部端口> <新外部端口> <内部IP> <内部端口>"
   echo "  list"
 }
@@ -90,7 +92,7 @@ case "$command" in
     add_forwarding "$@"
     ;;
   delete)
-    if [ $# -ne 2 ]; then
+    if [ $# -ne 4 ]; then
       usage
       exit 1
     fi
