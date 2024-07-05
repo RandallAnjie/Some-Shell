@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 获取命令行参数
-while getopts "4:6:" opt; do
+while getopts ":4:6:" opt; do
   case $opt in
     4) ALLOWED_IPV4="$OPTARG"
     ;;
