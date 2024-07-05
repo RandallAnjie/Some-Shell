@@ -7,7 +7,7 @@
 使用`curl`运行脚本，并将所需的IPv4和IPv6地址作为参数传入：
 
 ```bash
-curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/ssh/restrict_ssh_access/restrict_ssh_access.sh | bash -s -4 <IPv4地址> -6 <IPv6地址>
+curl -s https://git.randallanjie.com/Randall/Some-Shell/raw/branch/main/ssh/restrict_ssh_access/restrict_ssh_access.sh | bash -s -- -4 <IPv4地址> -6 <IPv6地址>
 ```
 
 ## 参数
