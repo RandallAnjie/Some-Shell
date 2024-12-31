@@ -32,6 +32,6 @@ export CF_Email="$CF_Email"
 # 设置acme并申请证书
 ~/.acme.sh/acme.sh --upgrade --auto-upgrade
 ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-~/.acme.sh/acme.sh --issue -d "$DONAMEFRONT.randallanjie-proxy.win" -d "$DONAMEFRONT-cdn.randallanjie-proxy.win" --dns dns_cf --dnssleep
+~/.acme.sh/acme.sh --issue -d "$DONAMEFRONT.randallanjie-proxy.win" -d "$DONAMEFRONT-cdn.randallanjie-proxy.win" -d "$DONAMEFRONT-proxy.randallanjie-proxy.win" --dns dns_cf --dnssleep
 
 echo "Setup complete for $DONAMEFRONT.randallanjie-proxy.win and $DONAMEFRONT-cdn.randallanjie-proxy.win"
