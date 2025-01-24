@@ -33,7 +33,7 @@ export CF_Email="$CF_Email"
 # 设置acme并申请证书
 ~/.acme.sh/acme.sh --upgrade --auto-upgrade
 ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-~/.acme.sh/acme.sh --issue -d "$DONAMEFRONT.$DONAMEEND" -d "zz.1080emby.pl" --dns dns_cf --dnssleep
+~/.acme.sh/acme.sh --issue -d "$DONAMEFRONT.$DONAMEEND" -d "$DONAMEFRONT-cf.$DONAMEEND" --dns dns_cf --dnssleep
 
 ~/.acme.sh/acme.sh --installcert -d "$DONAMEFRONT.$DONAMEEND" --key-file /etc/V2bX/cert.key --fullchain-file /etc/V2bX/fullchain.cer --reloadcmd "v2bx restart"
 
