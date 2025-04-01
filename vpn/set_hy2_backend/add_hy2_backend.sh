@@ -47,9 +47,6 @@ done
 # 更新系统并安装必要的软件包
 sudo apt update && sudo apt upgrade -y && sudo apt install vim wget curl net-tools socat -y
 
-# 设置主机名
-sudo hostnamectl set-hostname "$DONAME"
-
 # 运行acme脚本安装acme
 curl https://get.acme.sh | sh -s email="$DONAME@randallanjie.com"
 
